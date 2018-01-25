@@ -38,6 +38,15 @@ class CancelButton extends Component {
     }
 
     componentDidMount() {
+        const statusEnum = this.props.uploader.qq.status
+        const file = this.props.uploader.methods.getUploads({id: this.props.id})
+
+        if (file && !isCancelable(file.status, statusEnum)) {
+          this.setState({
+            cancelable: false
+          })
+        }
+
         this.props.uploader.on('statusChange', this._onStatusChange)
     }
 
